@@ -9,7 +9,7 @@ const Archive = () => {
     return (
       <React.Fragment>
           <Header mode={AppRoute.ARCHIVE}/>
-          <section class="main__wrapper">
+          <section className="main__wrapper">
             <Board />
           </section>
       </React.Fragment>
