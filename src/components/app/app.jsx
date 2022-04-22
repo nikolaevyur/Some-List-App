@@ -4,20 +4,18 @@ import Main from "../../pages/main/main";
 import Archive from "../../pages/archive/archive";
 import Form from "../../pages/form/form";
 import { AppRoute } from "../../const";
+import NotFound from "../../pages/not found/not found";
 
 
 const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact>
-          <Main />
-        </Route>
+        <Route path={AppRoute.MAIN} exact component={Main} />
         <Route path={AppRoute.ARCHIVE} exact component={Archive} />
-       
         <Route path={AppRoute.EVENT} exact component={Form} />
-        
-      </Switch>
+        <Route component={NotFound} />
+      </Switch> 
     </BrowserRouter>
    
   )

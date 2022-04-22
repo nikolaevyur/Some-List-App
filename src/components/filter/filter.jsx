@@ -6,7 +6,7 @@ const Filter = () => {
 
   const Create = () => {
     return (
-      <Link to={AppRoute.EVENT}>
+      <Link to={AppRoute.ADD}>
         <button
           name="control"
           className="btn-add"

@@ -424,3 +424,9 @@ body {
   outline: none;
   border: 0;
 }
+
+.error {
+  font-size: 50px;
+  text-align: center;
+  color: #183A4F;
+}
