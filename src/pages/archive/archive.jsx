@@ -5,11 +5,21 @@ import { AppRoute } from "../../const";
 
 
 
-const Archive = () => {
+const Archive = (props) => {
+
+  // const { id } = props.match.params;
+
+  // const render = () => {
+  //   return id ? `There is ID, here it is ${id}` : `There isn't ID`
+  // }
+
+  // console.log('id', id)
+
     return (
       <React.Fragment>
           <Header mode={AppRoute.ARCHIVE}/>
           <section className="main__wrapper">
+            {/* <div>{render()}</div> */}
             <Board />
           </section>
       </React.Fragment>
