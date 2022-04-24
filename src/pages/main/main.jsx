@@ -4,13 +4,13 @@ import Filter from "../../components/filter/filter";
 import Board from "../../components/board/board";
 
 
-const Main = () => {
+const Main = ({events}) => {
   return (
     <React.Fragment>
       <Header />
       <section className="main__wrapper">
         <Filter />
-        <Board />
+        <Board events={events} />
       </section>
     </React.Fragment>
   )

@@ -3,7 +3,7 @@ import Card from "../card/card";
 import LoadMore from "../load_more/load_more";
 import Sorting from "../sorting/sorting";
 
-const Board = () => {
+const Board = ({events}) => {
 
   function ShowSorting () {
     if (window.location.pathname === '/') {
@@ -17,7 +17,7 @@ const Board = () => {
     <section className="board">
       <ShowSorting />
       <div className="board__events">
-        <Card />
+        {events.map(event => <Card {...event} key={event._id} />)}
       </div>
       <LoadMore />
     </section>
