@@ -6,31 +6,27 @@ import "./card.css";
 import { events } from "../../store/index";
 import { AppRoute } from "../../const";
 
-const Card = ({ _id, theme, comment, date, favorite, archive }) => {
+const Card = ({event}) => {
+
+  const { _id, theme, comment, date, archive, favorite } = event;
 
   const formatDate = moment(date).format('DD MMMM')
 
   const handleToArchive = (evt) => {
     evt.preventDefault();
     events.editEvent({
+      ...event,
       id: _id,
-      theme,
-      comment,
-      date,
-      favorite,
-      archive: !archive,
+      archive: !archive
     })
   }
 
   const handleToFavorite = (evt) => {
     evt.preventDefault();
     events.editEvent({
+      ...event,
       id: _id,
-      theme,
-      comment,
-      date,
-      archive,
-      favorite: !favorite,
+      favorite: !favorite
     })
   }
 

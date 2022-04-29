@@ -1,6 +1,6 @@
 import { computed, makeAutoObservable, onBecomeObserved } from "mobx";
 import { getEvents, addEvent, editEvent, deleteEvent, deleteArchiveEvents } from "../api";
-
+import moment from "moment";
 class EventStore {
   _id;
   theme = '';
@@ -9,7 +9,7 @@ class EventStore {
   archive = false;
   favorite = false;
 
-  constructor({_id, theme, comment, date, archive, favorite}) {
+  constructor({ _id, theme, comment, date, archive, favorite }) {
     makeAutoObservable(this, {}, {
       autoBind: true
     });
@@ -25,6 +25,7 @@ class EventStore {
 
 class EventsStore {
   data = [];
+  filtredData = [];
 
   constructor() {
     makeAutoObservable(this, {}, {
@@ -44,9 +45,44 @@ class EventsStore {
     return this.data.map(event => new EventStore(event)).filter(x => !x.archive)
   }
 
+  get pastData() {
+    return this.data
+      .filter(x => moment(x.date).isBefore(moment(), 'day') && !x.archive);
+  }
+
+  get todayData() {
+    return this.data
+      .filter(x => moment(x.date).isSame(moment(), 'day') && !x.archive);
+  }
+
+  get futureData() {
+    return this.data
+      .filter(x => moment(x.date).isAfter(moment(), 'day') && !x.archive);
+  }
+
+  get favoriteData() {
+    return this.data
+      .filter(x => x.favorite && !x.archive);
+  }
+
+  get pastSorting() {
+    return this.data.slice()
+      .sort(function (a, b) {
+        return new Date(a.date) - new Date(b.date)
+      });
+  }
+
+  get futureSorting() {
+    return this.data.slice()
+      .sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date)
+      });
+  }
+
   *fetch() {
     const response = yield getEvents();
-    this.data = response.map(event => new EventStore(event));
+    this.data = response
+    this.filtredData = response.filter(x => !x.archive);
   }
 
   *addEvent(data) {
@@ -64,10 +100,10 @@ class EventsStore {
     yield this.fetch();
   }
 
-  *deleteArchiveEvents(){
+  *deleteArchiveEvents() {
     yield deleteArchiveEvents();
     yield this.fetch();
-}
+  }
 }
 
 export const events = new EventsStore();

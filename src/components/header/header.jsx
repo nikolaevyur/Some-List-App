@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AppRoute } from "../../const";
+import { useParams } from 'react-router-dom';
 
 const Header = () => {
+
+  const { id } = useParams();
 
   return (
     <section className="main__header">
@@ -14,7 +17,7 @@ const Header = () => {
               `main__header-lnk 
             ${window.location.pathname === AppRoute.MAIN && 'lnk-active'} 
             ${window.location.pathname === AppRoute.ADD && 'lnk-active'}
-            ${window.location.pathname === AppRoute.EVENT && 'lnk-active'}`
+            ${window.location.pathname === `${AppRoute.ADD}/${id}` && 'lnk-active'}`
             }
           >События
           </Link>
