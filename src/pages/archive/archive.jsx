@@ -1,29 +1,20 @@
 import React from "react";
 import Board from "../../components/board/board";
 import Header from "../../components/header/header";
-import { AppRoute } from "../../const";
+import { events } from "../../store/index";
+import { observer } from "mobx-react-lite";
 
-
-
-const Archive = (props) => {
-
-  // const { id } = props.match.params;
-
-  // const render = () => {
-  //   return id ? `There is ID, here it is ${id}` : `There isn't ID`
-  // }
-
-  // console.log('id', id)
+const Archive = observer(() => {
+  const { archiveData } = events;
 
     return (
       <React.Fragment>
-          <Header mode={AppRoute.ARCHIVE}/>
+          <Header />
           <section className="main__wrapper">
-            {/* <div>{render()}</div> */}
-            <Board />
+            <Board events={archiveData} />
           </section>
       </React.Fragment>
     )
-}
+  })
 
 export default Archive;
