@@ -1,30 +1,11 @@
 import React from "react";
 import { AppRoute } from "../../const";
-import { Link } from "react-router-dom";
+import CreateButton from "../create-button/create-button";
 
 const Filter = () => {
 
-  const Create = () => {
-    return (
-      <Link to={AppRoute.ADD}>
-        <button
-          name="control"
-          className="btn-add"
-        >Создать
-        </button>
-      </Link>
-    )
-  }
-
-  function ShowCreate () {
-    if (window.location.pathname === '/') {
-     return <Create />
-    }
-    
-  }
-
   return (
-    <section className="main__filter filter">
+    <div className="main__filter filter">
       <input
         type="radio"
         id="filter__all"
@@ -73,8 +54,10 @@ const Filter = () => {
       <label htmlFor="filter__favorite" className="filter__label"
       >Избранное <span className="filter__favorite-count count">1</span></label
       >
-      <ShowCreate />
-    </section>
+      {
+        window.location.pathname === AppRoute.MAIN && <CreateButton />
+      }
+    </div>
   )
 }
 

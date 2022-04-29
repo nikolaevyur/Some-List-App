@@ -1,12 +1,8 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AppRoute } from "../../const";
 
 const Header = () => {
-
-  // const location = window.location.pathname;
-  let location = useLocation();
-  
 
   return (
     <section className="main__header">
@@ -16,16 +12,17 @@ const Header = () => {
           <Link to="/"
             className={
               `main__header-lnk 
-            ${location.pathname === AppRoute.MAIN && 'lnk-active'} 
-            ${location.pathname === AppRoute.ADD && 'lnk-active'}`
+            ${window.location.pathname === AppRoute.MAIN && 'lnk-active'} 
+            ${window.location.pathname === AppRoute.ADD && 'lnk-active'}
+            ${window.location.pathname === AppRoute.EVENT && 'lnk-active'}`
             }
           >События
           </Link>
 
-          <Link to="/archive" 
+          <Link to="/archive"
             className={
               `main__header-lnk 
-            ${location.pathname === AppRoute.ARCHIVE && 'lnk-active'}`
+            ${window.location.pathname === AppRoute.ARCHIVE && 'lnk-active'}`
             }
           >Архив
           </Link>

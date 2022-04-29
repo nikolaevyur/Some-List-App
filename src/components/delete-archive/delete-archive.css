@@ -1,0 +1,19 @@
+.delete-archive {
+  width: calc(100% - 86px);
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  background-color: var(--accent-btn-color);
+  border: 2px solid #e9e7e7;
+  color: #e9e7e7;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 35px 0;
+  margin-top: auto;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.delete-archive:hover {
+  background-color: #c00707;
+}

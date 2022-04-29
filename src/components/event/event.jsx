@@ -1,104 +1,101 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { events } from "../../mocks";
-import moment from "moment";
-import "moment/locale/ru";
+import { events } from "../../store/index"
+import { observer } from "mobx-react-lite";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-const Event = (props) => {
+const Event = observer(() => {
+  const { id } = useParams(),
+    history = useHistory(),
+    currentEvent = events.data.filter(event => event._id === id)[0];
 
-  const { id } = useParams();
-
-  const changeTitle = () => {
-    if (id) {
-      return <h2 className="board__title">Редактирование события</h2>
-    } else {
-      return <h2 className="board__title">Добавление события</h2>
-    }
-
+  const changeEvent = () => {
+    return (
+      id ? {
+        theme: currentEvent.theme,
+        comment: currentEvent.comment,
+        date: currentEvent.date
+      } : {
+        theme: '',
+        comment: '',
+        date: new Date()
+      })
   }
 
-  const changeButton = () => {
-    if (id) {
-      return <button type="submit" className="btn-submit">Сохранить</button>
-    } else {
-      return <button type="submit" className="btn-submit">Добавить</button>
-    }
+  const [form, setForm] = useState(changeEvent);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    id ? events.editEvent({
+      id: currentEvent._id,
+      theme: form.theme,
+      comment: form.comment,
+      date: form.date,
+      favorite: currentEvent.favorite,
+      archive: currentEvent.archive,
+    })
+      : events.addEvent(form);
+
+    history.push('/');
   }
 
-  const [form, setForm] = React.useState({
-    theme: '',
-    comment: '',
-    date: new Date()
-  });
-
-  const handleFieldChange = (evt) => {
-    const { name, value } = evt.target;
-    setForm({ ...form, [name]: value });
+  const handleDelete = () => {
+    setForm({
+      theme: '',
+      comment: '',
+      date: new Date(),
+    })
   }
 
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
+  const handleFieldChange = (event) => {
+    const { name, value } = event.target
+    setForm({ ...form, [name]: value })
   }
-
-  const defaultEvent = {
-    theme: '',
-    comment: '',
-    date: '',
-  }
-
-  const findEvent = events.find(n => n._id === id)
-
-  const currentEvent = findEvent ? Object.assign({}, findEvent) : defaultEvent
-  
-  const formatDate = moment(currentEvent.date).format('YYYY-MM-DDThh:mm:ss')
 
   return (
-    <section className="board">
-      <form
-        className="board__form"
-        onSubmit={handleSubmit}
-      >
-        {changeTitle()}
+    <div className="board">
+      <form className="board__form" onSubmit={handleSubmit}>
+        <h2 className="board__title">{id ? 'Редактирование события' : 'Добавление события'}</h2>
         <fieldset className="board__field board__field--theme">
           <label htmlFor="theme" className="board__label board__label--theme">Тема:</label>
           <textarea
             type="text"
+            onChange={handleFieldChange}
             className="board__input board__input--theme"
             name="theme"
+            value={form.theme}
             required
-            onChange={handleFieldChange}
-            defaultValue={currentEvent.theme}
           ></textarea>
         </fieldset>
         <fieldset className="board__field board__field--comment">
           <label htmlFor="comment" className="board__label board__label--comment">Комментарий:</label>
           <textarea
             type="text"
+            onChange={handleFieldChange}
             className="board__input board__input--comment"
             name="comment"
+            value={form.comment}
             required
-            onChange={handleFieldChange}
-            defaultValue={currentEvent.comment}
           ></textarea>
         </fieldset>
         <fieldset className="board__field board__field--date">
           <label htmlFor="date" className="board__label board__label--date">Дата:</label>
           <input
             type="datetime-local"
+            onChange={handleFieldChange}
             className="board__input board__input--date"
             name="date"
-            onChange={handleFieldChange}
-            defaultValue={formatDate}
+            value={form.date}
           />
         </fieldset>
         <div className="btns">
-          {changeButton()}
-          <button type="reset" className="btn-reset">Очистить</button>
+          <button type="submit" className="btn-submit">{id ? 'Сохранить' : 'Добавить'}</button>
+          <button type="reset" className="btn-reset" onClick={handleDelete}>Очистить</button>
         </div>
       </form>
-    </section>
+    </div>
   )
-}
+})
 
-export default Event;
+export default Event

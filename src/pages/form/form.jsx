@@ -2,9 +2,9 @@ import React from "react";
 import Header from "../../components/header/header";
 import Filter from "../../components/filter/filter";
 import Event from "../../components/event/event";
+import { observer } from 'mobx-react-lite';
 
-
-const Form = () => {
+const Form = observer(() => {
   return (
     <React.Fragment>
       <Header />
@@ -15,5 +15,5 @@ const Form = () => {
     </React.Fragment>
   )
 }
-
+)
 export default Form;

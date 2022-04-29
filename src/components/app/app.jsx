@@ -4,27 +4,28 @@ import Main from "../../pages/main/main";
 import Archive from "../../pages/archive/archive";
 import Form from "../../pages/form/form";
 import { AppRoute } from "../../const";
-import NotFound from "../../pages/not found/not found";
+import NotFound from "../../pages/not-found/not-found";
+import { observer } from "mobx-react-lite";
 
-
-const App = ({events}) => {
+const App = observer(() => {
   return (
     <BrowserRouter>
       <Switch>
-        {/* <Route path={AppRoute.MAIN} events={events} exact component={Main} />
-        <Route path={AppRoute.ARCHIVE} exact component={Archive} /> */}
         <Route path={AppRoute.MAIN} exact>
-          <Main events={events}/>
+          <Main />
         </Route>
         <Route path={AppRoute.ARCHIVE} exact>
-          <Archive events={events}/>
+          <Archive />
         </Route>
-        <Route path={AppRoute.EVENT} exact component={Form} />
-        <Route component={NotFound} />
-      </Switch> 
+        <Route path={AppRoute.EVENT} exact>
+          <Form />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
     </BrowserRouter>
-   
   )
-}
+})
 
 export default App;

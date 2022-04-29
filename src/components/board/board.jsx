@@ -1,28 +1,26 @@
 import React from "react";
 import Card from "../card/card";
-import LoadMore from "../load_more/load_more";
+import DeleteArchive from "../delete-archive/delete-archive";
+import LoadMore from "../load-more/load-more";
 import Sorting from "../sorting/sorting";
+import { AppRoute } from "../../const";
 
-const Board = ({events}) => {
-
-  function ShowSorting () {
-    if (window.location.pathname === '/') {
-     return <Sorting />
-    }
-    
-  }
-
+const Board = ({ events }) => {
 
   return (
-    <section className="board">
-      <ShowSorting />
+    <div className="board">
+      {
+        window.location.pathname === AppRoute.MAIN && <Sorting />
+      }
       <div className="board__events">
         {events.map(event => <Card {...event} key={event._id} />)}
       </div>
       <LoadMore />
-    </section>
+      {
+        window.location.pathname === AppRoute.ARCHIVE && <DeleteArchive />
+      }
+    </div>
   )
-
 }
 
 export default Board;
